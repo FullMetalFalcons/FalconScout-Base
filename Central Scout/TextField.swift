@@ -2,9 +2,6 @@
 //  TextField.swift
 //  Central Scout
 //
-//  Created by Alex DeMeo on 2/4/15.
-//  Copyright (c) 2015 Alex DeMeo. All rights reserved.
-//
 
 import CoreBluetooth
 import Cocoa
@@ -22,26 +19,31 @@ extension AppDelegate : NSControlTextEditingDelegate, NSTextFieldDelegate {
     
     override func controlTextDidEndEditing(obj: NSNotification) {
         if obj.object! as! NSObject == currentDirectory {
+            if currentDirectory.stringValue.hasSuffix("/") {
+                currentDirectory.stringValue.removeAtIndex(currentDirectory.stringValue.endIndex.predecessor())
+            }
             endText = currentDirectory.stringValue
             if startText != nil {
                 do {
                     try NSFileManager.defaultManager().removeItemAtPath(startText)
                 } catch {
-                    <>error
+                    LOG(error)
                 }
             }
-            
             if !NSFileManager.defaultManager().fileExistsAtPath(endText) {
                 do {
                     try NSFileManager.defaultManager().createDirectoryAtPath(endText, withIntermediateDirectories: true, attributes: nil)
                 } catch {
-                    <>error
+                    LOG(error)
                 }
             }
         } else if obj.object! as! NSObject == javaDirectory {
+            if javaDirectory.stringValue.hasSuffix("/") {
+                javaDirectory.stringValue.removeAtIndex(javaDirectory.stringValue.endIndex.predecessor())
+            }
             if !NSFileManager.defaultManager().fileExistsAtPath(obj.object!.stringValue) {
                 if self.panels.selectedTabViewItem?.label == "Export Data" {
-                    <>"Checking validity of jar"
+                    LOG("Checking validity of jar")
                     if isDirectory(obj.object!.stringValue) {
                         alert("Cannot be a directory. Must be a java .jar file")
                     } else {
@@ -56,8 +58,20 @@ extension AppDelegate : NSControlTextEditingDelegate, NSTextFieldDelegate {
                 return
             }
             UUID_SERVICE = CBUUID(string: self.passkey)
-            <>"passkey is \(self.passkey)"
-            
+            self.refresh()
+            LOG("passkey is \(self.passkey)")
+        } else if obj.object! as! NSObject == configFileLocation {
+            if configFileLocation.stringValue.hasSuffix("/") {
+                configFileLocation.stringValue.removeAtIndex(configFileLocation.stringValue.endIndex.predecessor())
+            }
+            if !NSFileManager.defaultManager().fileExistsAtPath(obj.object!.stringValue) {
+                LOG("Checking validity of config")
+                if isDirectory(obj.object!.stringValue) {
+                    alert("Cannot be a directory. Must be a .txt file")
+                } else {
+                    alert("No text file exists there")
+                }
+            }
         }
     }
 }

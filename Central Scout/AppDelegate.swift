@@ -2,9 +2,6 @@
 //  AppDelegate.swift
 //  Central Scout
 //
-//  Created by Alex DeMeo on 1/5/15.
-//  Copyright (c) 2015 Alex DeMeo. All rights reserved.
-//
 
 import CoreBluetooth
 import Cocoa
@@ -14,16 +11,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet weak var window: NSWindow!
     @IBOutlet var logView: NSTextView!
-    @IBOutlet var currentDirectory: NSTextField!
     @IBOutlet var javaDirectory: NSTextField!
+    @IBOutlet var currentDirectory: NSTextField!
+    @IBOutlet var configFileLocation: NSTextField!
     @IBOutlet var tableAvailableDevices: NSTableView!
     @IBOutlet var tableConnectedDevices: NSTableView!
     @IBOutlet var panels: NSTabView!
     @IBOutlet var btnExportExcel: NSButton!
     @IBOutlet var lblReceivedFiles: NSTextField!
+    @IBOutlet var lblConnectedDevices: NSTextField!
     @IBOutlet var txtPasskey: NSTextField!
-    
-    var existingDevices = NSMutableArray()
+    @IBOutlet var btnRefresh: NSButton!
     
     var manager: CBCentralManager!
     
@@ -32,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var uuidToDevice_available = NSMutableDictionary()
     var uuidToDevice_connected = NSMutableDictionary()
+    var uuidToRSSI = NSMutableDictionary()
     var uuidToName = [String : String]()
     var selectedIndex = -1
     var selectedColumn = -1
@@ -42,34 +41,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var passkey: String!
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        <>("Starting Bluetooth...")
+        LOG("Starting Bluetooth...")
+        srand(UInt32(time(nil)))
         self.manager = CBCentralManager(delegate: self, queue: nil, options: nil)
-//        self.manager.scanForPeripheralsWithServices(nil, options: nil)
-        window.delegate = self
         logView.editable = false
         currentDirectory.delegate = self
         javaDirectory.delegate = self
+        configFileLocation.delegate = self
         txtPasskey.delegate = self
         panels.delegate = self
         tableAvailableDevices.setDelegate(self)
         tableAvailableDevices.setDataSource(self)
         tableConnectedDevices.setDelegate(self)
         tableConnectedDevices.setDataSource(self)
-        
         currentDirectory.stringValue = "\(applicationDesktopDirectory())/Scout"
         javaDirectory.stringValue = "\(applicationDesktopDirectory())/Scout.jar"
-        
+        configFileLocation.stringValue = "\(applicationDesktopDirectory())/config.txt"
         self.initSaveDirectory()
-    }
-    
-    /**
-     Refresh scanning, not very useful considering it's always scanning but just in case
-     */
-    @IBAction func refresh(sender: AnyObject?) {
-        <>"Refreshing..."
-        manager.stopScan()
-        manager.scanForPeripheralsWithServices(nil, options: nil)
-        self.update()
+        NSTimer.scheduledTimerWithTimeInterval(2, repeats: true, block: {
+            () -> Void in
+            self.reloadTableData()
+            self.lblConnectedDevices.stringValue = "\(self.connectedDevicesUUIDs.count)"
+        })
     }
     
     /**
@@ -79,23 +72,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if selectedIndex != -1 {
             if selectedColumn == 0 {
                 if let device = selectedDeviceAvailable {
-                    <>"attempting to connect to \(device.name)"
+                    LOG("attempting to connect to \(device.name)")
                     self.manager.connectPeripheral(device, options: [CBAdvertisementDataServiceUUIDsKey : [UUID_SERVICE]])
-                    NSTimer.scheduledTimerWithTimeInterval(2, repeats: false, block: {
+                    NSTimer.scheduledTimerWithTimeInterval(1, repeats: false, block: {
                         () -> Void in
                         if device.state != CBPeripheralState.Connected {
-                            alert("Could not connected to \(device.name == nil ? "No name" : device.name!), maybe they passkeys don't match up")
+                            alert("Could not connected to \(device.name == nil ? device.identifier.UUIDString : device.name!), maybe they passkeys don't match up")
                         }
                     })
-                   
                 }
             } else {
-                <>"Device is already connected"
-                alert("device already connected")
+                alert("Device already connected")
             }
         } else {
-            <>"no device selected"
-            alert("no device selected")
+            alert("No device selected")
         }
     }
     
@@ -106,38 +96,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if selectedIndex != -1  {
             if selectedColumn == 1 {
                 if let device = selectedDeviceConnected {
-                    self.updateTableDisconnect(selectedDeviceConnected!)
                     selectedDeviceConnected = nil
                     self.manager.cancelPeripheralConnection(device)
                 }
             } else {
-                <>"Can't disconnect from a device that isn't connected"
                 alert("Can't disconnect from a device that isn't connected")
             }
         } else {
-            <>"no device selected"
-            alert("no device selected")
+            alert("No device selected")
         }
     }
     
     func updateTableConnect(peripheral: CBPeripheral) {
         self.availableDevicesUUIDs.removeObject(peripheral.identifier)
         self.uuidToDevice_available.removeObjectForKey(peripheral.identifier)
-        self.connectedDevicesUUIDs.addObject(peripheral.identifier)
+//        if !self.connectedDevicesUUIDs.containsObject(peripheral.identifier) {
+            self.connectedDevicesUUIDs.addObject(peripheral.identifier)
+//        }
         self.uuidToDevice_connected[peripheral.identifier] = peripheral
-        removeDuplicates(&self.availableDevicesUUIDs)
-        removeDuplicates(&self.connectedDevicesUUIDs)
-        update()
+        self.reloadTableData()
     }
     
     func updateTableDisconnect(peripheral: CBPeripheral) {
         self.connectedDevicesUUIDs.removeObject(peripheral.identifier)
         self.uuidToDevice_connected.removeObjectForKey(peripheral.identifier)
-        self.availableDevicesUUIDs.addObject(peripheral.identifier)
+//        if !self.availableDevicesUUIDs.containsObject(peripheral.identifier) {
+            self.availableDevicesUUIDs.addObject(peripheral.identifier)
+//        }
         self.uuidToDevice_available[peripheral.identifier] = peripheral
-        removeDuplicates(&self.availableDevicesUUIDs)
-        removeDuplicates(&self.connectedDevicesUUIDs)
-        update()
+        self.reloadTableData()
     }
     
     @IBAction func generateUUID(sender: NSButton) {

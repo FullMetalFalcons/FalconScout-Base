@@ -8,20 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		EF0A68151A7B2D2D004FEAB5 /* NSTimer+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0A68141A7B2D2D004FEAB5 /* NSTimer+Block.m */; };
-		EF2867931A707973001F5DD2 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2867921A707973001F5DD2 /* DeviceRowView.swift */; };
 		EF2C08B71A5D90B300FB6F5B /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2C08B61A5D90B300FB6F5B /* Table.swift */; };
-		EF5C24EE1A83AAF9003052E7 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C24ED1A83AAF9003052E7 /* Window.swift */; };
+		EF60871D1C28F7F500CBF886 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF60871C1C28F7F500CBF886 /* Button.swift */; };
 		EF65C0941A5B8B660045584D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C0931A5B8B660045584D /* AppDelegate.swift */; };
 		EF65C0961A5B8B660045584D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF65C0951A5B8B660045584D /* Images.xcassets */; };
 		EF65C0991A5B8B660045584D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF65C0971A5B8B660045584D /* MainMenu.xib */; };
 		EF65C0A51A5B8B660045584D /* Central_ScoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C0A41A5B8B660045584D /* Central_ScoutTests.swift */; };
 		EF65C0B91A5C16FF0045584D /* Periphery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C0B81A5C16FF0045584D /* Periphery.swift */; };
+		EF8BEACA1C4A9D7D00B17FCA /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8BEAC91C4A9D7D00B17FCA /* CellView.swift */; };
 		EFA47B8A1A82ECD300A54959 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA47B891A82ECD300A54959 /* TabView.swift */; };
-		EFA52D5C1A8281B0007F19D1 /* ExportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA52D5B1A8281B0007F19D1 /* ExportData.swift */; };
 		EFA52D5E1A828A63007F19D1 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA52D5D1A828A63007F19D1 /* TextField.swift */; };
 		EFB11CBE1A6034F300FDFBEF /* BluetoothCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB11CBD1A6034F300FDFBEF /* BluetoothCentral.swift */; };
 		EFB11CC21A60378300FDFBEF /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB11CC11A60378300FDFBEF /* Function.swift */; };
-		EFD8C44D1A5CDD6F00E2EEEE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD8C44C1A5CDD6F00E2EEEE /* Extension.swift */; };
+		EFDF94221C441487004DAE8F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF94211C441487004DAE8F /* Extension.swift */; };
 		EFF060381A5CB17D00102044 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF060371A5CB17D00102044 /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,9 +37,8 @@
 /* Begin PBXFileReference section */
 		EF0A68131A7B2D2D004FEAB5 /* NSTimer+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+Block.h"; path = "../NSTimer+Block.h"; sourceTree = "<group>"; };
 		EF0A68141A7B2D2D004FEAB5 /* NSTimer+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Block.m"; path = "../NSTimer+Block.m"; sourceTree = "<group>"; };
-		EF2867921A707973001F5DD2 /* DeviceRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
 		EF2C08B61A5D90B300FB6F5B /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
-		EF5C24ED1A83AAF9003052E7 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		EF60871C1C28F7F500CBF886 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		EF65C08E1A5B8B660045584D /* Central Scout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Central Scout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF65C0921A5B8B660045584D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF65C0931A5B8B660045584D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,13 +48,13 @@
 		EF65C0A31A5B8B660045584D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF65C0A41A5B8B660045584D /* Central_ScoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Central_ScoutTests.swift; sourceTree = "<group>"; };
 		EF65C0B81A5C16FF0045584D /* Periphery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Periphery.swift; sourceTree = "<group>"; };
+		EF8BEAC91C4A9D7D00B17FCA /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		EFA47B891A82ECD300A54959 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
-		EFA52D5B1A8281B0007F19D1 /* ExportData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportData.swift; sourceTree = "<group>"; };
 		EFA52D5D1A828A63007F19D1 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		EFB11CBD1A6034F300FDFBEF /* BluetoothCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothCentral.swift; sourceTree = "<group>"; };
 		EFB11CC11A60378300FDFBEF /* Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
 		EFCA84441A5D757E0040FB64 /* Central Scout-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Central Scout-Bridging-Header.h"; sourceTree = "<group>"; };
-		EFD8C44C1A5CDD6F00E2EEEE /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = ../Extension.swift; sourceTree = "<group>"; };
+		EFDF94211C441487004DAE8F /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		EFF060371A5CB17D00102044 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -150,10 +148,10 @@
 			isa = PBXGroup;
 			children = (
 				EF2C08B61A5D90B300FB6F5B /* Table.swift */,
-				EFA52D5B1A8281B0007F19D1 /* ExportData.swift */,
+				EF8BEAC91C4A9D7D00B17FCA /* CellView.swift */,
 				EFA52D5D1A828A63007F19D1 /* TextField.swift */,
 				EFA47B891A82ECD300A54959 /* TabView.swift */,
-				EF5C24ED1A83AAF9003052E7 /* Window.swift */,
+				EF60871C1C28F7F500CBF886 /* Button.swift */,
 			);
 			name = extension;
 			sourceTree = "<group>";
@@ -161,9 +159,8 @@
 		EFB11CC01A60376D00FDFBEF /* utilities */ = {
 			isa = PBXGroup;
 			children = (
-				EFD8C44C1A5CDD6F00E2EEEE /* Extension.swift */,
+				EFDF94211C441487004DAE8F /* Extension.swift */,
 				EFB11CC11A60378300FDFBEF /* Function.swift */,
-				EF2867921A707973001F5DD2 /* DeviceRowView.swift */,
 			);
 			name = utilities;
 			sourceTree = "<group>";
@@ -304,18 +301,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8BEACA1C4A9D7D00B17FCA /* CellView.swift in Sources */,
 				EFA47B8A1A82ECD300A54959 /* TabView.swift in Sources */,
 				EF2C08B71A5D90B300FB6F5B /* Table.swift in Sources */,
-				EFD8C44D1A5CDD6F00E2EEEE /* Extension.swift in Sources */,
-				EFA52D5C1A8281B0007F19D1 /* ExportData.swift in Sources */,
 				EFA52D5E1A828A63007F19D1 /* TextField.swift in Sources */,
+				EFDF94221C441487004DAE8F /* Extension.swift in Sources */,
 				EF0A68151A7B2D2D004FEAB5 /* NSTimer+Block.m in Sources */,
-				EF2867931A707973001F5DD2 /* DeviceRowView.swift in Sources */,
 				EFB11CC21A60378300FDFBEF /* Function.swift in Sources */,
 				EF65C0941A5B8B660045584D /* AppDelegate.swift in Sources */,
 				EF65C0B91A5C16FF0045584D /* Periphery.swift in Sources */,
 				EFB11CBE1A6034F300FDFBEF /* BluetoothCentral.swift in Sources */,
-				EF5C24EE1A83AAF9003052E7 /* Window.swift in Sources */,
+				EF60871D1C28F7F500CBF886 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
