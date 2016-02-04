@@ -34,12 +34,27 @@ public func applicationDesktopDirectory() -> String! {
     return documentsURL.relativePath!
 }
 
-func alert(message: String) {
+func alert(message: String, pullsDown: Bool, onCompletion: () -> ()) {
     LOG(message)
     let alert = NSAlert()
     alert.addButtonWithTitle("OK")
     alert.messageText = message
-    alert.beginSheetModalForWindow(NSApplication.sharedApplication().mainWindow!, completionHandler: {
+    if !pullsDown {
+        if alert.runModal() == NSAlertFirstButtonReturn {
+            onCompletion()
+        }
+    } else {
+        alert.beginSheetModalForWindow(NSApp.mainWindow!, completionHandler: {
+            response -> () in
+            if response == NSAlertFirstButtonReturn {
+                onCompletion()
+            }
+        })
+    }
+    
+}
+func alert(message: String) {
+    alert(message, pullsDown: true, onCompletion: {
         _ -> () in
     })
 }

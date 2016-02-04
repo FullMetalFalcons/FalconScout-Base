@@ -4,9 +4,10 @@
 //
 
 import CoreBluetooth
+import Cocoa
 
 public var UUID_SERVICE: CBUUID = CBUUID(string: "444B")
-public let UUID_CHARACTERISTIC: CBUUID = CBUUID(string: "200B")
+public let UUID_CHARACTERISTIC: CBUUID = CBUUID(string: "20D0C428-B763-4016-8AC6-4B4B3A6865D9")
 
 extension AppDelegate : CBCentralManagerDelegate {
     
@@ -28,9 +29,6 @@ extension AppDelegate : CBCentralManagerDelegate {
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         LOG("Connected to \(peripheral.name)")
-//        if selectedDeviceAvailable != nil {
-//            self.updateTableConnect(selectedDeviceAvailable!)
-//        }
         self.updateTableConnect(peripheral)
         selectedDeviceAvailable = nil
         if !connectedDevicesUUIDs.containsObject(peripheral.identifier) {
@@ -47,10 +45,21 @@ extension AppDelegate : CBCentralManagerDelegate {
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
-        if central.state == CBCentralManagerState.PoweredOn {
+        switch central.state {
+        case .PoweredOn:
             LOG("Central manager state POWERED ON")
             self.refresh()
-            //            manager.scanForPeripheralsWithServices([UUID_SERVICE], options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+        case .PoweredOff:
+            LOG("Bluetooth is OFF")
+            alert("Bluetooth is appears to be off, please turn it on", pullsDown: NSApp.mainWindow != nil, onCompletion: {})
+        case .Unsupported:
+            LOG("Ble not supported on device")
+            alert("Bluetooth Low Energy (BLE) is not supported on this device\tPlease use this app on a device that supports BLE\nThe program will now exit", pullsDown: NSApp.mainWindow != nil, onCompletion: {
+                _ -> () in
+                exit(0)
+            })
+        default:
+            LOG("Changed state to \(central.state)")
         }
     }
 }

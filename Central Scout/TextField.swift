@@ -57,7 +57,7 @@ extension AppDelegate : NSControlTextEditingDelegate, NSTextFieldDelegate {
                 alert("That is not a valid password- it must be 4 characters long, consiting of either numbers or letters A-F")
                 return
             }
-            UUID_SERVICE = CBUUID(string: self.passkey)
+            UUID_SERVICE = CBUUID(string: "\(self.passkey)5888-16f1-43f8-aa84-63f1544f2694")
             self.refresh()
             LOG("passkey is \(self.passkey)")
         } else if obj.object! as! NSObject == configFileLocation {
