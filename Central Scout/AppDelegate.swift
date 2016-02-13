@@ -110,9 +110,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateTableConnect(peripheral: CBPeripheral) {
         self.availableDevicesUUIDs.removeObject(peripheral.identifier)
         self.uuidToDevice_available.removeObjectForKey(peripheral.identifier)
-//        if !self.connectedDevicesUUIDs.containsObject(peripheral.identifier) {
-            self.connectedDevicesUUIDs.addObject(peripheral.identifier)
-//        }
+        self.connectedDevicesUUIDs.addObject(peripheral.identifier)
         self.uuidToDevice_connected[peripheral.identifier] = peripheral
         self.reloadTableData()
     }
@@ -120,9 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateTableDisconnect(peripheral: CBPeripheral) {
         self.connectedDevicesUUIDs.removeObject(peripheral.identifier)
         self.uuidToDevice_connected.removeObjectForKey(peripheral.identifier)
-//        if !self.availableDevicesUUIDs.containsObject(peripheral.identifier) {
-            self.availableDevicesUUIDs.addObject(peripheral.identifier)
-//        }
+        self.availableDevicesUUIDs.addObject(peripheral.identifier)
         self.uuidToDevice_available[peripheral.identifier] = peripheral
         self.reloadTableData()
     }

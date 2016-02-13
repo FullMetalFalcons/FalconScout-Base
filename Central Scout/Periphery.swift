@@ -1,7 +1,6 @@
-//
-//  BTRef.swift
-//  Central Scout
-//
+
+
+
 
 import CoreBluetooth
 import Cocoa
@@ -39,17 +38,16 @@ extension AppDelegate: CBPeripheralDelegate {
             return
         }
         let stringFromData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        LOG("********STRING IS: \(stringFromData!)")
         if let str = stringFromData {
             if str.isEqualToString("EOM") {
                 LOG("DONE- Data size = \(theData.length)")
                 let finalData = theData as NSData
                 do {
-                    let dictionary = try NSJSONSerialization.JSONObjectWithData(finalData, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary
                     let filesDirectory = currentDirectory.stringValue
                     let name = NSUUID().UUIDString
-                    let didWrite = dictionary!.writeToFile("\(filesDirectory)/\(name).plist", atomically: true)
-                    LOG("did write = \(didWrite)")
+                    let everything = NSString(data: finalData, encoding: NSUTF8StringEncoding)
+                    try everything!.writeToFile("\(filesDirectory)/\(name).plist", atomically: true, encoding: NSUTF8StringEncoding)
+                    LOG("Writing value")
                     self.lblReceivedFiles.stringValue = "\(++fileCount)"
                 } catch {
                     LOG("problem turning data back into dictionary:: \(error)")
@@ -57,19 +55,19 @@ extension AppDelegate: CBPeripheralDelegate {
                 theData = NSMutableData()
             }  else {
                 theData.appendData(data!)
+                LOG("appending: \(str)")
             }
         }
     }
     
     
     func peripheral(peripheral: CBPeripheral, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        let prop = CBCharacteristicProperties.init(rawValue: characteristic.properties.rawValue)
-        LOG("properties for characteristc, that updated notificaiton state, are- \(prop)")
         if characteristic.isNotifying {
             LOG("IS NOTIFYING- \(peripheral.name)")
         } else {
             LOG("NOT NOTIFYING- \(peripheral.name), disconnecting")
             self.manager.cancelPeripheralConnection(peripheral)
+            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
         }
     }
     

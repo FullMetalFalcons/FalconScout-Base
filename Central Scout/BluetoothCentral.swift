@@ -39,7 +39,7 @@ extension AppDelegate : CBCentralManagerDelegate {
         peripheral.discoverServices([UUID_SERVICE])
     }
     
-    func centralManager(central: CBCentralManager,didDisconnectPeripheral peripheral: CBPeripheral,error: NSError?) {
+    func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         LOG("Disconnected from \(peripheral.name)")
         self.updateTableDisconnect(peripheral)
     }
