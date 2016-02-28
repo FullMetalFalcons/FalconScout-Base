@@ -10,6 +10,7 @@ func bash(args: String...) {
     for s in args {
         string += "\(s) ;"
     }
+    LOG("Executing bash:: \(string)")
     system(string)
 }
 
@@ -54,7 +55,7 @@ func alert(message: String, pullsDown: Bool, onCompletion: () -> ()) {
     
 }
 func alert(message: String) {
-    alert(message, pullsDown: true, onCompletion: {
+    alert(message, pullsDown: NSApp.mainWindow != nil, onCompletion: {
         _ -> () in
     })
 }
@@ -126,4 +127,22 @@ func genID() -> String {
         }
     }
     return id
+}
+
+infix operator += {}
+
+func +=(inout start: String, append: String) {
+    start.appendContentsOf(append)
+}
+
+func +=(inout start: NSString, append: NSString) {
+    start = "\(start)\(append)"
+}
+
+func +=(inout start: String, append: NSString) {
+    start.appendContentsOf("\(append)")
+}
+
+func +=(inout start: NSString, append: String) {
+    start = "\(start)\(append)"
 }

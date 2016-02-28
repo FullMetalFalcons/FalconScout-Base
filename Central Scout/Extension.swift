@@ -16,42 +16,6 @@ extension NSTextView {
     }
 }
 
-
-extension AppDelegate {
-    /**
-     Returns the current instance of the app
-     */
-    class func instance() -> AppDelegate {
-        return NSApplication.sharedApplication().delegate as! AppDelegate
-    }
-    
-    
-    func applicationWillTerminate(aNotification: NSNotification) {
-        LOG("Terminating Scout... Goodbye")
-    }
-    
-    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
-        return true
-    }
-    
-    /**
-     Reloads data for both tables
-     */
-    func reloadTableData() {
-        let i = self.selectedIndex
-        let col = self.selectedColumn
-        self.tableAvailableDevices.reloadData()
-        self.tableConnectedDevices.reloadData()
-        if i != -1 {
-            if col == 0 {
-                self.tableAvailableDevices.selectRowIndexes(NSIndexSet(index: i), byExtendingSelection: false)
-            } else if col == 1 {
-                self.tableConnectedDevices.selectRowIndexes(NSIndexSet(index: i), byExtendingSelection: false)
-            }
-        }
-    }
-}
-
 extension CBPeripheral {
     func isNotifyingCharacteristic() -> Bool {
         var n: [Bool] = [Bool]()
@@ -85,35 +49,6 @@ extension CBPeripheral {
     }
 }
 
-/*
-- (NSImage*)imageRotatedByDegrees:(CGFloat)degrees {
-NSSize rotatedSize = NSMakeSize(self.size.height, self.size.width) ;
-NSImage* rotatedImage = [[NSImage alloc] initWithSize:rotatedSize] ;
-
-NSAffineTransform* transform = [NSAffineTransform transform] ;
-
-// In order to avoid clipping the image, translate
-// the coordinate system to its center
-[transform translateXBy:+self.size.width/2
-yBy:+self.size.height/2] ;
-// then rotate
-[transform rotateByDegrees:degrees] ;
-// Then translate the origin system back to
-// the bottom left
-[transform translateXBy:-rotatedSize.width/2
-yBy:-rotatedSize.height/2] ;
-
-[rotatedImage lockFocus] ;
-[transform concat] ;
-[self drawAtPoint:NSMakePoint(0,0)
-fromRect:NSZeroRect
-operation:NSCompositeCopy
-fraction:1.0] ;
-[rotatedImage unlockFocus] ;
-
-return [rotatedImage autorelease] ;
-}
-*/
 
 extension NSImage {
     func rotateByDegrees(degrees: CGFloat) -> NSImage {

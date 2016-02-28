@@ -38,9 +38,11 @@ extension AppDelegate : NSControlTextEditingDelegate, NSTextFieldDelegate {
                 }
             }
         } else if obj.object! as! NSObject == javaDirectory {
+            self.database.close()
             if javaDirectory.stringValue.hasSuffix("/") {
                 javaDirectory.stringValue.removeAtIndex(javaDirectory.stringValue.endIndex.predecessor())
             }
+            self.database.open()
             if !NSFileManager.defaultManager().fileExistsAtPath(obj.object!.stringValue) {
                 if self.panels.selectedTabViewItem?.label == "Export Data" {
                     LOG("Checking validity of jar")

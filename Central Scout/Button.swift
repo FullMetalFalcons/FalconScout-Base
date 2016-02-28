@@ -29,10 +29,13 @@ extension AppDelegate {
             }
         })
     }
+    
     @IBAction func getJavaExecutableDirectory(sender: NSButton) {
+        self.database.close()
         self.getSelectionDirectory("jar", executable: {
             path in
             self.javaDirectory.stringValue = path == nil ? "None" : path!
+            self.database.open()
         })
     }
     
@@ -42,7 +45,7 @@ extension AppDelegate {
             self.currentDirectory.stringValue = path == nil ? "None" : path!
         })
     }
-    
+        
     @IBAction func compile(sender: NSButton) {
         let dir = javaDirectory.stringValue
         let filesDirectory = currentDirectory.stringValue
@@ -52,11 +55,15 @@ extension AppDelegate {
             return
         }
         LOG("Compiling to excel by executing java in directory: \(dir)")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
             let newDir = filesDirectory.substringToIndex((filesDirectory.rangeOfString("/", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil)?.startIndex)!)
             LOG("results.xlsx will be located at: \(newDir)")
-            bash("java -jar \(dir) \(configLoc) \(filesDirectory) \(newDir)")
+            bash("java -Dapple.awt.UIElement=true -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) true \(newDir)")
         })
+    }
+    
+    @IBAction func btnUpdateDB(sender: NSButton) {
+        self.timerUpdateDB.fire()
     }
     
     /**

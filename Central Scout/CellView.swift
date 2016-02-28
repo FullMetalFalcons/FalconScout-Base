@@ -41,9 +41,7 @@ class CellView: NSView {
         strengthView.bordered = false
         strengthView.editable = false
         strengthView.alignment = NSTextAlignment.Center
-        self.addSubview(strengthView)
-        
-        
+        self.addSubview(strengthView)        
     }
     
     required init?(coder: NSCoder) {

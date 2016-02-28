@@ -25,6 +25,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var manager: CBCentralManager!
     
+    var timerUpdateDB: NSTimer!
+    var database: DatabaseManager!
+    
     var availableDevicesUUIDs = NSMutableArray()
     var connectedDevicesUUIDs = NSMutableArray()
     
@@ -63,6 +66,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.reloadTableData()
             self.lblConnectedDevices.stringValue = "\(self.connectedDevicesUUIDs.count)"
         })
+        self.database = DatabaseManager()
+        self.timerUpdateDB = NSTimer(timeInterval: 60, target: self, selector: "updateDB", userInfo: nil, repeats: true)
     }
     
     /**
@@ -74,7 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let device = selectedDeviceAvailable {
                     LOG("attempting to connect to \(device.name)")
                     self.manager.connectPeripheral(device, options: [CBAdvertisementDataServiceUUIDsKey : [UUID_SERVICE]])
-                    NSTimer.scheduledTimerWithTimeInterval(1, repeats: false, block: {
+                    NSTimer.scheduledTimerWithTimeInterval(2, repeats: false, block: {
                         () -> Void in
                         if device.state != CBPeripheralState.Connected {
                             alert("Could not connected to \(device.name == nil ? device.identifier.UUIDString : device.name!), maybe they passkeys don't match up")
@@ -127,5 +132,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.txtPasskey.stringValue = genID()
         self.passkey = self.txtPasskey.stringValue
         self.controlTextDidEndEditing(NSNotification(name: "", object: self.txtPasskey))
+    }
+    
+    func updateDB() {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+            self.database.close()
+            let dir = self.javaDirectory.stringValue
+            let filesDirectory = self.currentDirectory.stringValue
+            let configLoc = self.configFileLocation.stringValue
+            if !NSFileManager.defaultManager().fileExistsAtPath(self.javaDirectory.stringValue) {
+                alert("Please specify a location of the Scouting program Java executable file to be able to compile the information into Excel")
+                return
+            }
+            bash("java -Dapple.awt.UIElement=true -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) false")
+            self.database.open()
+        })
+    }
+    
+    /**
+     Returns the current instance of the app
+     */
+    class func instance() -> AppDelegate {
+        return NSApplication.sharedApplication().delegate as! AppDelegate
+    }
+    
+    
+    func applicationWillTerminate(aNotification: NSNotification) {
+        self.database.close()
+        LOG("Terminating Scout... Goodbye")
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+        return true
+    }
+    
+    /**
+     Reloads data for both tables
+     */
+    func reloadTableData() {
+        let i = self.selectedIndex
+        let col = self.selectedColumn
+        self.tableAvailableDevices.reloadData()
+        self.tableConnectedDevices.reloadData()
+        if i != -1 {
+            if col == 0 {
+                self.tableAvailableDevices.selectRowIndexes(NSIndexSet(index: i), byExtendingSelection: false)
+            } else if col == 1 {
+                self.tableConnectedDevices.selectRowIndexes(NSIndexSet(index: i), byExtendingSelection: false)
+            }
+        }
     }
 }

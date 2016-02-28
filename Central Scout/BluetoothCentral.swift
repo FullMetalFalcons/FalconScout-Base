@@ -7,7 +7,8 @@ import CoreBluetooth
 import Cocoa
 
 public var UUID_SERVICE: CBUUID = CBUUID(string: "444B")
-public let UUID_CHARACTERISTIC: CBUUID = CBUUID(string: "20D0C428-B763-4016-8AC6-4B4B3A6865D9")
+public let UUID_CHARACTERISTIC_ROBOT: CBUUID = CBUUID(string: "20D0C428-B763-4016-8AC6-4B4B3A6865D9")
+public let UUID_CHARACTERISTIC_DB: CBUUID = CBUUID(string: "80A37B7F-0563-409B-B320-8C1768CE6A58")
 
 extension AppDelegate : CBCentralManagerDelegate {
     
@@ -43,6 +44,7 @@ extension AppDelegate : CBCentralManagerDelegate {
         LOG("Disconnected from \(peripheral.name)")
         self.updateTableDisconnect(peripheral)
     }
+    
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         switch central.state {
