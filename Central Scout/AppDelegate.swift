@@ -67,7 +67,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.lblConnectedDevices.stringValue = "\(self.connectedDevicesUUIDs.count)"
         })
         self.database = DatabaseManager()
-        self.timerUpdateDB = NSTimer(timeInterval: 60, target: self, selector: "updateDB", userInfo: nil, repeats: true)
+        self.timerUpdateDB = NSTimer.scheduledTimerWithTimeInterval(60, repeats: true, block: {
+            self.updateDB()
+        })
     }
     
     /**
@@ -144,7 +146,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 alert("Please specify a location of the Scouting program Java executable file to be able to compile the information into Excel")
                 return
             }
-            bash("java -Dapple.awt.UIElement=true -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) false")
+            bash("java -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) false")
             self.database.open()
         })
     }

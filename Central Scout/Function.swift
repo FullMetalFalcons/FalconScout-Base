@@ -14,7 +14,6 @@ func bash(args: String...) {
     system(string)
 }
 
-
 private var count = 0
 func LOG<T>(obj: T) {
     let sayWhat = "\(++count) –> \t\(obj)\n"

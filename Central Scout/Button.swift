@@ -58,7 +58,7 @@ extension AppDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
             let newDir = filesDirectory.substringToIndex((filesDirectory.rangeOfString("/", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil)?.startIndex)!)
             LOG("results.xlsx will be located at: \(newDir)")
-            bash("java -Dapple.awt.UIElement=true -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) true \(newDir)")
+            bash("java -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) true \(newDir)")
         })
     }
     

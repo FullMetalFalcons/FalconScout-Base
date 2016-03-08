@@ -5,8 +5,9 @@
 import CoreBluetooth
 import Cocoa
 
-private var theData = NSMutableData()
+//private var theData = NSMutableData()
 private var fileCount = 0
+var periphToData = [String : NSMutableData]()
 extension AppDelegate: CBPeripheralDelegate {
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
@@ -31,10 +32,10 @@ extension AppDelegate: CBPeripheralDelegate {
         }
     }
     
+    
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         if characteristic.UUID == UUID_CHARACTERISTIC_ROBOT {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
-                
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
                 let data = characteristic.value
                 LOG("Received \(data!.length) bytes of data")
                 let error: NSError? = nil
@@ -42,11 +43,17 @@ extension AppDelegate: CBPeripheralDelegate {
                     LOG("error discovering characteristic: \(error)")
                     return
                 }
+                
                 let stringFromData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                let id = peripheral.identifier.UUIDString
+                if periphToData[id] == nil {
+                    periphToData[id] = NSMutableData()
+                }
+
                 if let str = stringFromData {
                     if str.isEqualToString("EOM") {
-                        LOG("DONE- Data size = \(theData.length)")
-                        let finalData = theData as NSData
+                        LOG("DONE- Data size = \(periphToData[id]!.length)")
+                        let finalData = periphToData[id]! as NSData
                         do {
                             let filesDirectory = self.currentDirectory.stringValue
                             let name = NSUUID().UUIDString
@@ -57,9 +64,9 @@ extension AppDelegate: CBPeripheralDelegate {
                         } catch {
                             LOG("problem turning data back into dictionary:: \(error)")
                         }
-                        theData = NSMutableData()
+                        periphToData[id] = NSMutableData()
                     }  else {
-                        theData.appendData(data!)
+                        periphToData[id]!.appendData(data!)
                     }
                 }
             })
@@ -83,6 +90,6 @@ extension AppDelegate: CBPeripheralDelegate {
     }
     
     func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-       
+        
     }
 }
