@@ -103,9 +103,8 @@ extension AppDelegate {
         LOG("Refreshing...")
         self.btnRefresh.enabled = false
         manager.stopScan()
-        manager.scanForPeripheralsWithServices([UUID_SERVICE], options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+        manager.scanForPeripheralsWithServices([UUID_SERVICE], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
         self.reloadTableData()
-        
         var cnt = 0;
         var t: NSTimer!
         t = NSTimer.scheduledTimerWithTimeInterval(0.0055555556, repeats: true, block: {

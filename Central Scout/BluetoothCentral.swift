@@ -10,6 +10,7 @@ public var UUID_SERVICE: CBUUID = CBUUID(string: "444B")
 public let UUID_CHARACTERISTIC_ROBOT: CBUUID = CBUUID(string: "20D0C428-B763-4016-8AC6-4B4B3A6865D9")
 public let UUID_CHARACTERISTIC_DB: CBUUID = CBUUID(string: "80A37B7F-0563-409B-B320-8C1768CE6A58")
 
+private var deviceExists = [String : Bool]()
 extension AppDelegate : CBCentralManagerDelegate {
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
@@ -22,12 +23,18 @@ extension AppDelegate : CBCentralManagerDelegate {
         uuidToDevice_available[peripheral.identifier] = peripheral
         LOG("advertisement with identifier: \(uuid),\n\tstate: \(peripheral.state),\n\tname: \(peripheral.name),\n\tservices: \(peripheral.services),\n\tdescription: \(advertisementData.description),\n\tRSSI: \(RSSI)")
         self.reloadTableData()
+        deviceExists[uuid] = true
         if advertisementData[CBAdvertisementDataServiceUUIDsKey] == nil {
             return
         }
         self.manager.connectPeripheral(peripheral, options: nil)
+        NSTimer.scheduledTimerWithTimeInterval(10, repeats: false, block: {
+            self.availableDevicesUUIDs.removeObject(peripheral.identifier)
+            
+        })
+      
     }
-    
+
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         LOG("Connected to \(peripheral.name)")
         self.updateTableConnect(peripheral)
@@ -44,7 +51,6 @@ extension AppDelegate : CBCentralManagerDelegate {
         LOG("Disconnected from \(peripheral.name)")
         self.updateTableDisconnect(peripheral)
     }
-    
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         switch central.state {

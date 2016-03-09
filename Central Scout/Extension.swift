@@ -45,10 +45,8 @@ extension CBPeripheral {
             LOG("Peripheral IS notifying")
             return true
         }
-
     }
 }
-
 
 extension NSImage {
     func rotateByDegrees(degrees: CGFloat) -> NSImage {
