@@ -21,7 +21,6 @@ func LOG<T>(obj: T) {
     print(sayWhat)
 }
 
-
 public func applicationDocumentsDirectory() -> String! {
     let paths = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
     let documentsURL = paths[0] as NSURL
