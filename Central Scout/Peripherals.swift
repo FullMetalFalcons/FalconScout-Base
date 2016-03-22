@@ -60,7 +60,8 @@ extension AppDelegate: CBPeripheralDelegate {
                             let everything = NSString(data: finalData, encoding: NSUTF8StringEncoding)
                             try everything!.writeToFile("\(filesDirectory)/\(name).plist", atomically: true, encoding: NSUTF8StringEncoding)
                             LOG("Writing value")
-                            self.lblReceivedFiles.stringValue = "\(++fileCount)"
+                            fileCount += 1
+                            self.lblReceivedFiles.stringValue = "\(fileCount)"
                         } catch {
                             LOG("problem turning data back into dictionary:: \(error)")
                         }

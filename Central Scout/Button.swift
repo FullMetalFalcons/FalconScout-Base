@@ -109,7 +109,8 @@ extension AppDelegate {
         var t: NSTimer!
         t = NSTimer.scheduledTimerWithTimeInterval(0.0055555556, repeats: true, block: {
             _ in
-            if cnt++ >= 180 {
+            cnt += 1
+            if cnt >= 180 {
                 self.btnRefresh.enabled = true
                 t.invalidate()
             } else {

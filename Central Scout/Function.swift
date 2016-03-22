@@ -19,7 +19,8 @@ func bash(args: String...) {
 
 private var count = 0
 func LOG<T>(obj: T) {
-    let sayWhat = "\(++count) –> \t\(obj)"
+    count += 1
+    let sayWhat = "\(count) –> \t\(obj)"
     AppDelegate.instance().logView.appendText("\(sayWhat)\n")
     print(sayWhat)
 }
