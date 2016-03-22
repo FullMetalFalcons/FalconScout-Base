@@ -58,8 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         tableConnectedDevices.setDelegate(self)
         tableConnectedDevices.setDataSource(self)
         currentDirectory.stringValue = "\(applicationDesktopDirectory())/Scout"
-        javaDirectory.stringValue = "\(applicationDesktopDirectory())/Scout.jar"
-        configFileLocation.stringValue = "\(applicationDesktopDirectory())/config.txt"
+        javaDirectory.stringValue = jarLoc()
+        configFileLocation.stringValue = configLog()
         self.initSaveDirectory()
         NSTimer.scheduledTimerWithTimeInterval(2, repeats: true, block: {
             () -> Void in
@@ -146,7 +146,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 alert("Please specify a location of the Scouting program Java executable file to be able to compile the information into Excel")
                 return
             }
-            bash("java -jar \(dir) \(configLoc) \(filesDirectory) \(DatabaseManager.getDBDirectory()) false")
+            bash("java -jar \(dir.toBashDir()) \(configLoc.toBashDir()) \(filesDirectory.toBashDir()) \(DatabaseManager.getDBDirectory().toBashDir()) false")
             self.database.open()
         })
     }

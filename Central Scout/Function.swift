@@ -7,10 +7,13 @@ import Cocoa
 
 func bash(args: String...) {
     var string = ""
+    LOG("Executing bash:")
     for s in args {
         string += "\(s) ;"
     }
-    LOG("Executing bash:: \(string)")
+    for arg in args[0].componentsSeparatedByString(" ") {
+        print("\t\(arg)")
+    }
     system(string)
 }
 
@@ -31,6 +34,18 @@ public func applicationDesktopDirectory() -> String! {
     let paths = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DesktopDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
     let documentsURL = paths[0] as NSURL
     return documentsURL.relativePath!
+}
+
+public func jarLoc() -> String {
+    let loc = NSBundle.mainBundle().pathForResource("Scout", ofType: "jar")!
+    LOG("Jar is in:: \(loc)")
+    return loc
+}
+
+public func configLog() -> String {
+    let loc = NSBundle.mainBundle().pathForResource("config", ofType: "txt")!
+    LOG("config is in:: \(loc)")
+    return loc
 }
 
 func alert(message: String, pullsDown: Bool, onCompletion: () -> ()) {

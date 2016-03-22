@@ -37,10 +37,12 @@ extension AppDelegate : CBCentralManagerDelegate {
 
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         LOG("Connected to \(peripheral.name)")
-        self.updateTableConnect(peripheral)
         selectedDeviceAvailable = nil
         if !connectedDevicesUUIDs.containsObject(peripheral.identifier) {
-            connectedDevicesUUIDs.addObject(peripheral.identifier)
+//            connectedDevicesUUIDs.addObject(peripheral.identifier)
+            self.updateTableConnect(peripheral)
+        } else {
+            return
         }
         uuidToDevice_connected[peripheral.identifier] = peripheral
         peripheral.delegate = self

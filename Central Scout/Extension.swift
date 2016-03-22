@@ -48,6 +48,18 @@ extension CBPeripheral {
     }
 }
 
+extension String {
+    func toBashDir() -> String {
+        var start = ""
+        for p in self.componentsSeparatedByString(" ") {
+            start += "\(p)\\ "
+        }
+        start.removeAtIndex(start.endIndex.predecessor().predecessor())
+        LOG("TO BASH DIR::: \(start)")
+        return start
+    }
+}
+
 extension NSImage {
     func rotateByDegrees(degrees: CGFloat) -> NSImage {
         let rotatedSize = NSSize(width: self.size.width, height: self.size.height)

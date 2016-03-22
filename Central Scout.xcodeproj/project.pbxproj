@@ -21,6 +21,8 @@
 		EFA52D5E1A828A63007F19D1 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA52D5D1A828A63007F19D1 /* TextField.swift */; };
 		EFB11CBE1A6034F300FDFBEF /* BluetoothCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB11CBD1A6034F300FDFBEF /* BluetoothCentral.swift */; };
 		EFB11CC21A60378300FDFBEF /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB11CC11A60378300FDFBEF /* Function.swift */; };
+		EFC0A86D1CA0B7830038F4A3 /* config.txt in Resources */ = {isa = PBXBuildFile; fileRef = EFC0A86C1CA0B7830038F4A3 /* config.txt */; };
+		EFC0A86E1CA0BB290038F4A3 /* Scout.jar in Resources */ = {isa = PBXBuildFile; fileRef = EFC0A86A1CA0B77C0038F4A3 /* Scout.jar */; };
 		EFDF94221C441487004DAE8F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF94211C441487004DAE8F /* Extension.swift */; };
 		EFEC70E51C77904600D28EDC /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEC70E41C77904600D28EDC /* libsqlite3.tbd */; };
 		EFF060381A5CB17D00102044 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF060371A5CB17D00102044 /* CoreBluetooth.framework */; };
@@ -56,6 +58,8 @@
 		EFA52D5D1A828A63007F19D1 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		EFB11CBD1A6034F300FDFBEF /* BluetoothCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothCentral.swift; sourceTree = "<group>"; };
 		EFB11CC11A60378300FDFBEF /* Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		EFC0A86A1CA0B77C0038F4A3 /* Scout.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = Scout.jar; sourceTree = "<group>"; };
+		EFC0A86C1CA0B7830038F4A3 /* config.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.txt; sourceTree = "<group>"; };
 		EFCA84441A5D757E0040FB64 /* Central Scout-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Central Scout-Bridging-Header.h"; sourceTree = "<group>"; };
 		EFDF94211C441487004DAE8F /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		EFEC70E41C77904600D28EDC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -114,13 +118,13 @@
 		EF65C0901A5B8B660045584D /* Central Scout */ = {
 			isa = PBXGroup;
 			children = (
+				EFC0A8691CA0B7660038F4A3 /* resources */,
 				EF93676D1C754A2D0037F4EE /* database */,
 				EFB11CC01A60376D00FDFBEF /* utilities */,
 				EFB11CBF1A6036A400FDFBEF /* extension */,
 				EFC2EC681A5D927900D202A0 /* bluetooth */,
 				EF2C08B81A5D90B800FB6F5B /* core */,
 				EFCA84481A5D75830040FB64 /* objc */,
-				EF65C0951A5B8B660045584D /* Images.xcassets */,
 				EF65C0911A5B8B660045584D /* Supporting Files */,
 			);
 			path = "Central Scout";
@@ -178,6 +182,16 @@
 				EFB11CC11A60378300FDFBEF /* Function.swift */,
 			);
 			name = utilities;
+			sourceTree = "<group>";
+		};
+		EFC0A8691CA0B7660038F4A3 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF65C0951A5B8B660045584D /* Images.xcassets */,
+				EFC0A86A1CA0B77C0038F4A3 /* Scout.jar */,
+				EFC0A86C1CA0B7830038F4A3 /* config.txt */,
+			);
+			name = resources;
 			sourceTree = "<group>";
 		};
 		EFC2EC681A5D927900D202A0 /* bluetooth */ = {
@@ -281,7 +295,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC0A86E1CA0BB290038F4A3 /* Scout.jar in Resources */,
 				EF65C0961A5B8B660045584D /* Images.xcassets in Resources */,
+				EFC0A86D1CA0B7830038F4A3 /* config.txt in Resources */,
 				EF65C0991A5B8B660045584D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
