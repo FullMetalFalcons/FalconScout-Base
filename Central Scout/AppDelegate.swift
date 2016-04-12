@@ -46,7 +46,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         LOG("Starting Bluetooth...")
         srand(UInt32(time(nil)))
-        self.manager = CBCentralManager(delegate: self, queue: nil, options: nil)
+        
+        self.manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
         logView.editable = false
         currentDirectory.delegate = self
         javaDirectory.delegate = self

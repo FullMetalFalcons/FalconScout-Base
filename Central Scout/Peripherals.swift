@@ -73,9 +73,14 @@ extension AppDelegate: CBPeripheralDelegate {
             })
         } else if characteristic.UUID == UUID_CHARACTERISTIC_DB {
             let number = NSString(data: characteristic.value!, encoding: NSUTF8StringEncoding)
-            if let teamNum = number {
-                LOG("peripheral wants information for team: \(teamNum)")
-                self.database.retrieveTeamOnPeripheral(peripheral, withCharacteristic: characteristic, teamNum: "\(teamNum)")
+            if let req = number {
+                LOG("Got request– \(req)")
+                let parts = req.componentsSeparatedByString("::")
+                if parts[0].hasPrefix("n") {
+                    self.database.retrieveTeamOnPeripheral(peripheral, withCharacteristic: characteristic, teamNum: "\(parts[1])")
+                } else if parts[0].hasPrefix("i") {
+                    self.database.retrieveInfoOnPeripheral(peripheral, withCharacteristic: characteristic, withInfo: parts[1].componentsSeparatedByString(";;"))
+                }
             }
         }
     }

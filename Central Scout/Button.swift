@@ -45,7 +45,7 @@ extension AppDelegate {
             self.currentDirectory.stringValue = path == nil ? "None" : path!
         })
     }
-        
+    
     @IBAction func compile(sender: NSButton) {
         let dir = javaDirectory.stringValue
         let filesDirectory = currentDirectory.stringValue
@@ -103,7 +103,8 @@ extension AppDelegate {
         LOG("Refreshing...")
         self.btnRefresh.enabled = false
         manager.stopScan()
-        manager.scanForPeripheralsWithServices([UUID_SERVICE], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+        manager.scanForPeripheralsWithServices([UUID_SERVICE], options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+        manager.retrievePeripheralsWithIdentifiers(self.availableDevicesUUIDs as AnyObject as! [NSUUID])
         self.reloadTableData()
         var cnt = 0;
         var t: NSTimer!
@@ -117,5 +118,14 @@ extension AppDelegate {
                 self.btnRefresh.image = self.btnRefresh.image?.rotateByDegrees(4)
             }
         })
+    }
+    
+    @IBAction func resetDB(sender: NSButton) {
+        LOG("Reset database")
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(DatabaseManager.getDBLocation())
+        } catch {
+            alert("Couldn't remove database\nIt probably doesn't exist")
+        }
     }
 }
